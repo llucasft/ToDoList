@@ -63,6 +63,12 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    @Override
+    protected void onStart() {
+        loadTaskList();
+        super.onStart();
+    }
+
     public void loadTaskList(){
 
         //Listing tasks
@@ -83,7 +89,7 @@ public class MainActivity extends AppCompatActivity {
         recyclerView.setHasFixedSize(true);
         recyclerView.addItemDecoration(new DividerItemDecoration(
                 getApplicationContext(), LinearLayout.VERTICAL));
-        //recyclerView.setAdapter();
+        recyclerView.setAdapter( taskAdapter );
     }
 
     @Override
