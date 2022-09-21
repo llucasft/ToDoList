@@ -1,8 +1,10 @@
-package com.example.todolist;
+package com.example.todolist.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 
-import com.google.android.material.snackbar.Snackbar;
+import com.example.todolist.R;
+import com.example.todolist.activity.AddTaskActivity;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -12,13 +14,26 @@ import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
+import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.todolist.adapter.TaskAdapter;
 import com.example.todolist.databinding.ActivityMainBinding;
+import com.example.todolist.model.Task;
 
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.LinearLayout;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
+
+    RecyclerView recyclerView;
+    private TaskAdapter taskAdapter;
+    private List<Task> taskList = new ArrayList<>();
 
     private AppBarConfiguration appBarConfiguration;
     private ActivityMainBinding binding;
@@ -32,6 +47,9 @@ public class MainActivity extends AppCompatActivity {
 
         setSupportActionBar(binding.toolbar);
 
+        //Set RecyclerView
+        recyclerView = findViewById(R.id.recyclerView);
+
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
         appBarConfiguration = new AppBarConfiguration.Builder(navController.getGraph()).build();
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
@@ -39,10 +57,33 @@ public class MainActivity extends AppCompatActivity {
         binding.fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                Intent intent = new Intent(getApplicationContext(), AddTaskActivity.class);
+                startActivity(intent);
             }
         });
+    }
+
+    public void loadTaskList(){
+
+        //Listing tasks
+        Task task1 = new Task();
+        task1.setNameTask("Go to the shop");
+        taskList.add(task1);
+
+        Task task2 = new Task();
+        task2.setNameTask("Buy dog's food");
+        taskList.add(task2);
+
+        //Set Adapter
+        taskAdapter = new TaskAdapter( taskList );
+
+        //Set RecyclerView
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
+        recyclerView.setLayoutManager(layoutManager);
+        recyclerView.setHasFixedSize(true);
+        recyclerView.addItemDecoration(new DividerItemDecoration(
+                getApplicationContext(), LinearLayout.VERTICAL));
+        //recyclerView.setAdapter();
     }
 
     @Override
