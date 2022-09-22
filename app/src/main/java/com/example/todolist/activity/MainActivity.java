@@ -8,6 +8,7 @@ import com.example.todolist.activity.AddTaskActivity;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.util.Log;
 import android.view.View;
 
 import androidx.navigation.NavController;
@@ -20,10 +21,12 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.todolist.adapter.TaskAdapter;
 import com.example.todolist.databinding.ActivityMainBinding;
+import com.example.todolist.helper.RecyclerItemClickListener;
 import com.example.todolist.model.Task;
 
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.AdapterView;
 import android.widget.LinearLayout;
 
 import java.util.ArrayList;
@@ -50,6 +53,29 @@ public class MainActivity extends AppCompatActivity {
         //Set RecyclerView
         recyclerView = findViewById(R.id.recyclerView);
 
+        recyclerView.addOnItemTouchListener(
+                new RecyclerItemClickListener(
+                        getApplicationContext(),
+                        recyclerView,
+                        new RecyclerItemClickListener.OnItemClickListener() {
+                            @Override
+                            public void onItemClick(View view, int position) {
+                                Log.i("clique", "OnItemClick");
+                            }
+
+                            @Override
+                            public void onLongItemClick(View view, int position) {
+                                Log.i("clique", "OnItemLongClick");
+                            }
+
+                            @Override
+                            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+
+                            }
+                        }
+                )
+        );
+
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
         appBarConfiguration = new AppBarConfiguration.Builder(navController.getGraph()).build();
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
@@ -72,13 +98,13 @@ public class MainActivity extends AppCompatActivity {
     public void loadTaskList(){
 
         //Listing tasks
-        Task task1 = new Task();
+        /*Task task1 = new Task();
         task1.setNameTask("Go to the shop");
         taskList.add(task1);
 
         Task task2 = new Task();
         task2.setNameTask("Buy dog's food");
-        taskList.add(task2);
+        taskList.add(task2);*/
 
         //Set Adapter
         taskAdapter = new TaskAdapter( taskList );
