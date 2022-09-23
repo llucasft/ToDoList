@@ -16,7 +16,6 @@ public class DbHelper extends SQLiteOpenHelper {
     public static String TASKS_TABLE = "tasks";
 
     public DbHelper(@Nullable Context context) {
-
         super(context, DB_NAME, null, VERSION);
     }
 
@@ -25,7 +24,7 @@ public class DbHelper extends SQLiteOpenHelper {
 
         String sql = "CREATE TABLE IF NOT EXISTS " + TASKS_TABLE
                 + " (id INTEGER PRIMARY KEY AUTOINCREMENT, "
-                +" name TEXT NOT NULL ); ";
+                +" name TEXT NOT NULL ) ;";
 
         try {
             db.execSQL(sql);
@@ -38,7 +37,7 @@ public class DbHelper extends SQLiteOpenHelper {
     @Override
     public void onUpgrade(SQLiteDatabase db, int i, int i1) {
 
-        String sql = "DROP TABLE IF EXISTS " + TASKS_TABLE + ";";
+        String sql = "DROP TABLE IF EXISTS " + TASKS_TABLE + " ;";
 
         try {
             db.execSQL(sql);

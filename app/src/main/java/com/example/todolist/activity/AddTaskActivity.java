@@ -38,10 +38,13 @@ public class AddTaskActivity extends AppCompatActivity {
             case R.id.saveItem:
                 TaskDAO taskDAO = new TaskDAO( getApplicationContext() );
 
-                Task task = new Task();
-                task.setNameTask("Go to the bank");
-
-                taskDAO.save( task );
+                String taskName = editTask.getText().toString();
+                if (!taskName.isEmpty()){
+                    Task task = new Task();
+                    task.setNameTask( taskName );
+                    taskDAO.save( task );
+                    finish();
+                }
                 break;
         }
         return super.onOptionsItemSelected(item);

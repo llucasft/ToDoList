@@ -2,11 +2,13 @@ package com.example.todolist.helper;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
 import com.example.todolist.model.Task;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class TaskDAO implements ITaskDAO{
@@ -50,6 +52,27 @@ public class TaskDAO implements ITaskDAO{
 
     @Override
     public List<Task> list() {
-        return null;
+        List<Task> tasks = new ArrayList<>();
+
+        String sql = "SELECT * FROM " + DbHelper.TASKS_TABLE + " ;";
+        Cursor c = reader.rawQuery(sql, null);
+
+        while (c.moveToNext()){
+
+            Task task = new Task();
+
+            int columnIndex = c.getColumnIndex("id");
+            int columnNameIndex = c.getColumnIndex("name");
+
+            Long id = c.getLong(columnIndex);
+            String taskName = c.getString( columnNameIndex );
+
+            task.setId( id );
+            task.setNameTask( taskName );
+
+            tasks.add(task);
+        }
+
+        return tasks;
     }
 }

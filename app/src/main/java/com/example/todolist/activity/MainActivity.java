@@ -24,6 +24,7 @@ import com.example.todolist.adapter.TaskAdapter;
 import com.example.todolist.databinding.ActivityMainBinding;
 import com.example.todolist.helper.DbHelper;
 import com.example.todolist.helper.RecyclerItemClickListener;
+import com.example.todolist.helper.TaskDAO;
 import com.example.todolist.model.Task;
 
 import android.view.Menu;
@@ -101,13 +102,8 @@ public class MainActivity extends AppCompatActivity {
     public void loadTaskList(){
 
         //Listing tasks
-        /*Task task1 = new Task();
-        task1.setNameTask("Go to the shop");
-        taskList.add(task1);
-
-        Task task2 = new Task();
-        task2.setNameTask("Buy dog's food");
-        taskList.add(task2);*/
+        TaskDAO taskDAO = new TaskDAO(getApplicationContext());
+        taskList = taskDAO.list();
 
         //Set Adapter
         taskAdapter = new TaskAdapter( taskList );
