@@ -64,7 +64,12 @@ public class MainActivity extends AppCompatActivity {
                         new RecyclerItemClickListener.OnItemClickListener() {
                             @Override
                             public void onItemClick(View view, int position) {
-                                Log.i("clique", "OnItemClick");
+                                Task selectedTask = taskList.get(position);
+
+                                Intent intent = new Intent(MainActivity.this, AddTaskActivity.class);
+                                intent.putExtra("selectedTask", selectedTask);
+
+                                startActivity( intent );
                             }
 
                             @Override
