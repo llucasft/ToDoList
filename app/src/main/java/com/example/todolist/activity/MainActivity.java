@@ -1,12 +1,14 @@
 package com.example.todolist.activity;
 
 import android.content.ContentValues;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 
 import com.example.todolist.R;
 import com.example.todolist.activity.AddTaskActivity;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.util.Log;
@@ -31,6 +33,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.AdapterView;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,6 +43,7 @@ public class MainActivity extends AppCompatActivity {
     RecyclerView recyclerView;
     private TaskAdapter taskAdapter;
     private List<Task> taskList = new ArrayList<>();
+    private Task selectedTask;
 
     private AppBarConfiguration appBarConfiguration;
     private ActivityMainBinding binding;
@@ -74,7 +78,38 @@ public class MainActivity extends AppCompatActivity {
 
                             @Override
                             public void onLongItemClick(View view, int position) {
-                                Log.i("clique", "OnItemLongClick");
+
+                                selectedTask = taskList.get(position);
+
+                                AlertDialog.Builder dialog = new AlertDialog.Builder(MainActivity.this);
+
+                                dialog.setTitle("Confirm delete");
+                                dialog.setMessage("Want to delete task: " + selectedTask.getNameTask() + "?");
+
+                                dialog.setPositiveButton("Sim", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialogInterface, int i) {
+
+                                        TaskDAO taskDAO = new TaskDAO(getApplicationContext());
+                                        if (taskDAO.delete(selectedTask)){
+                                            loadTaskList();
+                                            Toast.makeText(
+                                                    getApplicationContext(),
+                                                    "Task deleted",
+                                                    Toast.LENGTH_SHORT).show();
+                                        } else {
+                                            Toast.makeText(
+                                                    getApplicationContext(),
+                                                    "Error deleting task",
+                                                    Toast.LENGTH_SHORT).show();
+                                        }
+                                    }
+                                });
+
+                                dialog.setNegativeButton("Não", null);
+
+                                dialog.create();
+                                dialog.show();
                             }
 
                             @Override

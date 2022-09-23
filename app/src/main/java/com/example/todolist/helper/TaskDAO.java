@@ -35,6 +35,7 @@ public class TaskDAO implements ITaskDAO{
             Log.i("INFO","Task saved successfully " );
         }catch (Exception e){
             Log.i("INFO","Error saving task " + e.getMessage() );
+            return false;
         }
 
         return true;
@@ -52,13 +53,24 @@ public class TaskDAO implements ITaskDAO{
             Log.i("INFO","Task updated successfully " );
         }catch (Exception e){
             Log.i("INFO","Error updating task " + e.getMessage() );
+            return false;
         }
         return true;
     }
 
     @Override
     public boolean delete(Task task) {
-        return false;
+
+        try{
+            String[] args = {String.valueOf(task.getId())};
+            writer.delete(DbHelper.TASKS_TABLE, "id=?", args);
+            Log.i("INFO","Task deleted successfully " );
+        }catch (Exception e){
+            Log.i("INFO","Error deleting task " + e.getMessage() );
+            return false;
+        }
+
+        return true;
     }
 
     @Override
