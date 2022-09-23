@@ -1,5 +1,6 @@
 package com.example.todolist.activity;
 
+import android.content.ContentValues;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -21,6 +22,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.todolist.adapter.TaskAdapter;
 import com.example.todolist.databinding.ActivityMainBinding;
+import com.example.todolist.helper.DbHelper;
 import com.example.todolist.helper.RecyclerItemClickListener;
 import com.example.todolist.model.Task;
 
@@ -52,6 +54,7 @@ public class MainActivity extends AppCompatActivity {
 
         //Set RecyclerView
         recyclerView = findViewById(R.id.recyclerView);
+
 
         recyclerView.addOnItemTouchListener(
                 new RecyclerItemClickListener(

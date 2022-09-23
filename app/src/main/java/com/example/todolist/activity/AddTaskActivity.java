@@ -8,13 +8,21 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.example.todolist.R;
+import com.example.todolist.helper.ITaskDAO;
+import com.example.todolist.helper.TaskDAO;
+import com.example.todolist.model.Task;
+import com.google.android.material.textfield.TextInputEditText;
 
 public class AddTaskActivity extends AppCompatActivity {
+
+    private TextInputEditText editTask;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_task);
+
+        editTask = findViewById(R.id.textTask);
     }
 
     @Override
@@ -28,7 +36,12 @@ public class AddTaskActivity extends AppCompatActivity {
 
         switch (item.getItemId()){
             case R.id.saveItem:
-                Toast.makeText(this, "Save button pressed", Toast.LENGTH_SHORT).show();
+                TaskDAO taskDAO = new TaskDAO( getApplicationContext() );
+
+                Task task = new Task();
+                task.setNameTask("Go to the bank");
+
+                taskDAO.save( task );
                 break;
         }
         return super.onOptionsItemSelected(item);
